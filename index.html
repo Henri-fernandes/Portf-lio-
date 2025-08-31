@@ -532,7 +532,7 @@
     <section id="contact" class="contact-section fade-in">
         <div class="container">
             <h2>Entre em Contato</h2>
-            <form class="contact-form" id="contactForm">
+            <form class="contact-form" id="contactForm" action="https://formsubmit.co/fernandes.henri2020@gmail.com" method="POST">
                 <div class="form-group">
                     <label for="name">Nome Completo</label>
                     <input type="text" id="name" name="name" required placeholder="Seu nome completo">
@@ -545,8 +545,10 @@
                     <label for="message">Mensagem</label>
                     <textarea id="message" name="message" required placeholder="Como posso ajudá-lo?"></textarea>
                 </div>
+                <!-- Pode adicionar campos extras se quiser, ex: assunto -->
                 <button type="submit" class="submit-button">Enviar Mensagem</button>
             </form>
+
         </div>
     </section>
 
@@ -619,35 +621,33 @@
             });
         }
 
-        // ===== VALIDAÇÃO DO FORMULÁRIO =====
+        // ===== VALIDAÇÃO DO FORMULÁRIO (para FormSubmit) =====
         function setupFormValidation() {
             const form = document.getElementById('contactForm');
-            
+
             form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const message = document.getElementById('message').value;
-                
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const message = document.getElementById('message').value.trim();
+
                 // Validação simples
                 if (!name || !email || !message) {
+                    e.preventDefault(); // impede envio se algum campo estiver vazio
                     alert('Por favor, preencha todos os campos.');
                     return;
                 }
-                
-                // Email validation
+
+                // Validação de e-mail
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!emailRegex.test(email)) {
+                    e.preventDefault(); // impede envio se e-mail inválido
                     alert('Por favor, insira um email válido.');
-                    return;
                 }
-                
-                // Aqui você pode adicionar o código para enviar o formulário
-                // Exemplo: integrar com EmailJS, FormSubmit ou seu backend
-                alert('Mensagem enviada com sucesso! Entrarei em contato em breve.');
-                form.reset();
+
+                // Se passou na validação, o formulário será enviado normalmente
+                // Não precisa de alert de sucesso aqui, pois o FormSubmit fará o redirecionamento
             });
+
         }
 
         // ===== INICIALIZAÇÃO =====
